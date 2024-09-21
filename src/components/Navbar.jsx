@@ -31,10 +31,12 @@ function Navbar() {
       shadow="md"
     >
       <Flex justify="space-between" align="center" height="100%">
+        {/* Logo */}
         <Box>
           <Image src="/logo.png" alt="logo" height="50px" />
         </Box>
 
+        {/* Desktop Nav Links */}
         <Flex
           gap={{ base: "15px", md: "25px" }}
           align="center"
@@ -47,9 +49,11 @@ function Navbar() {
             to="/"
             style={({ isActive }) => ({
               fontSize: "16px",
-              color: isActive ? "blue" : "gray.800",
+              color: isActive ? "blue" : "gray",
               textDecoration: "none",
+              borderBottom: isActive ? "2px solid blue" : "none",
             })}
+            className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
           >
             Home
           </NavLink>
@@ -57,9 +61,11 @@ function Navbar() {
             to="/bio"
             style={({ isActive }) => ({
               fontSize: "16px",
-              color: isActive ? "blue" : "gray.800",
+              color: isActive ? "blue" : "gray",
               textDecoration: "none",
+              borderBottom: isActive ? "2px solid blue" : "none",
             })}
+            className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
           >
             My bio
           </NavLink>
@@ -67,9 +73,11 @@ function Navbar() {
             to="/impact"
             style={({ isActive }) => ({
               fontSize: "16px",
-              color: isActive ? "blue" : "gray.800",
+              color: isActive ? "blue" : "gray",
               textDecoration: "none",
+              borderBottom: isActive ? "2px solid blue" : "none",
             })}
+            className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
           >
             Impact
           </NavLink>
@@ -77,9 +85,11 @@ function Navbar() {
             to="/blog"
             style={({ isActive }) => ({
               fontSize: "16px",
-              color: isActive ? "blue" : "gray.800",
+              color: isActive ? "blue" : "gray",
               textDecoration: "none",
+              borderBottom: isActive ? "2px solid blue" : "none",
             })}
+            className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
           >
             Blog
           </NavLink>
@@ -102,6 +112,8 @@ function Navbar() {
           display={{ base: "block", md: "none" }}
           onClick={onOpen}
           variant="outline"
+          size={'lg'}
+          colorScheme="blue"
         />
 
         {/* Drawer for Mobile Menu */}
@@ -114,25 +126,58 @@ function Navbar() {
                   <Image src="/logo.png" alt="logo" height="50px" />
                 </Box>
               </DrawerHeader>
-              <DrawerBody className="animated-text">
+              <DrawerBody>
                 <VStack spacing={4}>
                   <NavLink
                     to="/"
+                    onClick={onClose}
                     style={({ isActive }) => ({
                       fontSize: "16px",
-                      color: isActive ? "blue" : "gray.800",
+                      color: isActive ? "blue" : "gray",
                       textDecoration: "none",
+                      borderBottom: isActive ? "2px solid blue" : "none",
                     })}
+                    className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
                   >
                     Home
                   </NavLink>
-                  <NavLink to="/bio" onClick={onClose}>
+                  <NavLink
+                    to="/bio"
+                    onClick={onClose}
+                    style={({ isActive }) => ({
+                      fontSize: "16px",
+                      color: isActive ? "blue" : "gray",
+                      textDecoration: "none",
+                      borderBottom: isActive ? "2px solid blue" : "none",
+                    })}
+                    className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
+                  >
                     My bio
                   </NavLink>
-                  <NavLink to="/impact" onClick={onClose}>
+                  <NavLink
+                    to="/impact"
+                    onClick={onClose}
+                    style={({ isActive }) => ({
+                      fontSize: "16px",
+                      color: isActive ? "blue" : "gray",
+                      textDecoration: "none",
+                      borderBottom: isActive ? "2px solid blue" : "none",
+                    })}
+                    className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
+                  >
                     Impact
                   </NavLink>
-                  <NavLink to="/blog" onClick={onClose}>
+                  <NavLink
+                    to="/blog"
+                    onClick={onClose}
+                    style={({ isActive }) => ({
+                      fontSize: "16px",
+                      color: isActive ? "blue" : "gray",
+                      textDecoration: "none",
+                      borderBottom: isActive ? "2px solid blue" : "none",
+                    })}
+                    className="hover:text-blue-500 hover:border-b-2 hover:border-blue-500"
+                  >
                     Blog
                   </NavLink>
                   <Button colorScheme="blue" onClick={onClose}>

@@ -9,8 +9,8 @@ function ConsultingServices() {
         size="lg"
         mb={3}
         alignSelf="flex-start"
-        lineHeight="1.5" // Adjusted line height
-        letterSpacing="0.05em" // Adjusted letter spacing
+        lineHeight="1.5" 
+        letterSpacing="0.05em" 
         fontFamily="serif"
       >
         My Consulting Services

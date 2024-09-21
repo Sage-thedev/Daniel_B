@@ -1,6 +1,7 @@
-import { Box, Flex, Heading, Text, FormControl, FormLabel, Input, Textarea, Checkbox, Button, useToast } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Box, Flex, Heading, Text, FormControl, FormLabel, Input, Textarea, Button, useToast } from '@chakra-ui/react';
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
+import ReCAPTCHA from 'react-google-recaptcha';  // Import reCAPTCHA
 
 // Motion component from framer-motion
 const MotionBox = motion(Box);
@@ -11,25 +12,32 @@ const ContactSection = () => {
     email: "",
     subject: "",
     message: "",
-    robot: false,
   });
 
+  const [captchaToken, setCaptchaToken] = useState(null); // State to store reCAPTCHA token
   const [isSubmitted, setIsSubmitted] = useState(false);
   const toast = useToast(); // Use Chakra's toast for notifications
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef(null);
+
+  // reCAPTCHA callback
+  const onCaptchaChange = (token) => {
+    setCaptchaToken(token);  // Store token in state
+  };
 
   // Handle form input changes
   const handleOnChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     });
   };
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, subject, message, robot } = formData;
+    const { name, email, subject, message } = formData;
 
     // Validation for empty fields
     if (!name || !email || !subject || !message) {
@@ -42,8 +50,8 @@ const ContactSection = () => {
       return;
     }
 
-    // Validation for robot checkbox
-    if (!robot) {
+    // Validation for reCAPTCHA
+    if (!captchaToken) {
       toast({
         title: "Please confirm you are not a robot",
         status: "error",
@@ -70,15 +78,15 @@ const ContactSection = () => {
         email: "",
         subject: "",
         message: "",
-        robot: false,
       });
 
+      setCaptchaToken(null);  // Reset CAPTCHA token
       setIsSubmitted(false);
     }, 2000);
   };
 
   return (
-    <Flex   direction={{ base: 'column', md: 'row' }} bg=" bg-gray-300" shadow="lg" rounded="lg" p={8}>
+    <Flex direction={{ base: 'column', md: 'row' }} bg=" bg-gray-300" shadow="lg" rounded="lg" p={8}>
       {/* Left Section */}
       <Box as={'section'} bg="blue.600" shadow="md" color="white" p={8} w={{ base: '100%', md: '40%' }}>
         <Flex flexDir="column" justifyContent="center" alignItems="center" height="100%">
@@ -93,9 +101,10 @@ const ContactSection = () => {
 
       {/* Right Section - Slide Down Form */}
       <MotionBox 
-        initial={{ opacity: 0, y: -50 }}  // Initial slide-down animation state
-        animate={{ opacity: 1, y: 0 }}    // Final animation state
-        transition={{ duration: 0.5, ease: 'easeInOut' }}  // Transition settings
+        ref={sectionRef}
+        initial={{ opacity: 0, y: -50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: -50 }}
+        transition={{ duration: 0.5, ease: 'easeInOut' }}
         p={8} 
         w={{ base: '100%', md: '60%' }} 
         bg="gainsboro.300"  
@@ -149,19 +158,13 @@ const ContactSection = () => {
             />
           </FormControl>
 
-         
-         <FormControl shadow="sm" mb={4} display="flex" alignItems="center" px={4} py={1} bg='gray.200'>
-            <Checkbox 
-              type="checkbox" 
-              name="robot" 
-              isChecked={formData.robot} 
-              onChange={handleOnChange}
-              bg={'white'}
-            />
-            <FormLabel htmlFor="robot" ml={2}>I'm not a robot</FormLabel>
-          </FormControl>
+          {/* reCAPTCHA */}
+          <ReCAPTCHA
+            sitekey="6LclMEsqAAAAABBB2jX2R37xxW5BT_ks76rnLFyE"
+            onChange={onCaptchaChange}
+          />
 
-          <Box display="flex" justifyContent="center">
+          <Box display="flex" justifyContent="center" mt={4}>
             <Button 
               colorScheme="blue" 
               px={4} 
